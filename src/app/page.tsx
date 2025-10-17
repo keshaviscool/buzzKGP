@@ -39,6 +39,7 @@ export default function Home() {
             alignItems: "center",
             justifyContent: "center"
         }}>
+            
         {posts.map((post) => {
             return (
 

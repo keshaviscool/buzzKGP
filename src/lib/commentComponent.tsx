@@ -53,18 +53,27 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
     const [isReply, setIsReply] = useState(false);
     const [replyBody, setReplyBody] = useState("");
     const [replies, setReplies] = useState<Comment[]>([]);
+    const [commentUser, setCommentUser] = useState({});
+
+
 
     useEffect(() => {
         const getReplies = async () => {
             const commentId = comment._id;
             const res = await fetch(`/api/replies?comment_id=${commentId}`);
             const data = await res.json();
-            console.log(data, "replies client*****");
 
             setReplies(data);
         }
+        const getCommentUser = async () => {
+            const user_id = comment.user_id;
+            const res = await fetch(`/api/user?user_id=${user_id}`);
+            const data = await res.json();
+            setCommentUser(data);
+        }
 
         getReplies();
+        getCommentUser();
     }, []);
 
     return (
@@ -72,10 +81,11 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
             <Box mb={4} ml={4} margin={0}>
                 <Stack direction="row" spacing={4} padding={2} borderRadius={"10px"}>
                     <Avatar.Root variant={"outline"}>
-                        <Avatar.Fallback name="Segun Adebayo" />
+                        <Avatar.Fallback name={commentUser?.fullName} />
+                        <Avatar.Image src={commentUser?.imageUrl} />
                     </Avatar.Root>
                     <Box padding={2}>
-                        <Text fontWeight="bold">User</Text>
+                        <Text fontWeight="bold">{commentUser?.fullName ? commentUser?.fullName : "User"}</Text>
                         <Text>{comment.body}</Text>
                         <Box display={'flex'} gap={"10px"} >
 
