@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react"
 import { Post } from "@/lib/types";
 import Link from "next/link";
+import Navbar from "@/lib/navbarComponent";
+import { RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -24,7 +26,10 @@ export default function Home() {
         fetchPosts();
     }, []); // dependency array ensures it runs once
     return <>
-
+    <SignedOut>
+        <RedirectToSignIn />
+    </SignedOut>
+        <Navbar/>
         {posts.map((post) => {
             return (
                 <Link href={`/post/${post._id}`} key={post._id}>

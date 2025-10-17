@@ -1,6 +1,7 @@
 "use client";
 import CommentComponent from "@/lib/commentComponent";
 import { Post } from "@/lib/types";
+import { RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
 export default function PostDetails(
@@ -40,6 +41,9 @@ export default function PostDetails(
 
 
     return <div>
+        <SignedOut>
+        <RedirectToSignIn />
+    </SignedOut>
         {
             loading ? "page loading mfer" :
                 <div style={{
