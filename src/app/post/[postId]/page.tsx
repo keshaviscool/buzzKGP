@@ -1,5 +1,6 @@
 "use client";
 import CommentComponent from "@/lib/commentComponent";
+import Navbar from "@/lib/navbarComponent";
 import { Post } from "@/lib/types";
 import { RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
@@ -41,6 +42,7 @@ export default function PostDetails(
 
 
     return <div>
+        <Navbar />
         <SignedOut>
         <RedirectToSignIn />
     </SignedOut>

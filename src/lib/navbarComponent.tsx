@@ -37,13 +37,15 @@ function Navbar() {
       <div style={{ display:"grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
         {/* Left: Logo */}
         <HStack spacing={2} justifySelf={"start"}>
+          <Link href={"/"}>
           <Text fontSize="lg" fontWeight="bold" >
             Buzz KGP
           </Text>
+          </Link>
         </HStack>
 
         <HStack spacing={2} justifySelf={"center"}>
-          <Link href="/create-post">
+          <Link href="/post/new">
                 <Button colorScheme="blue" w="full">
                   Create Post
                 </Button>
