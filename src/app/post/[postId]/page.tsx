@@ -4,6 +4,9 @@ import Navbar from "@/lib/navbarComponent";
 import { Post } from "@/lib/types";
 import { RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { Avatar, Button, Card } from "@chakra-ui/react"
+import Link from "next/link";
+
 
 export default function PostDetails(
     { params }: { params: { postId: string } }
@@ -44,33 +47,58 @@ export default function PostDetails(
     return <div>
         <Navbar />
         <SignedOut>
-        <RedirectToSignIn />
-    </SignedOut>
+            <RedirectToSignIn />
+        </SignedOut>
         {
             loading ? "page loading mfer" :
-                <div style={{
-                    display: "flex",
-                    alignContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column"
-                }}>
-                    <h2>{post?.title}</h2>
-                    <p>
-                        {post?.content}
-                    </p>
+                <div>
+                    <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
+                        <Card.Body>
+                            <Card.Title mt="2">{post?.title}</Card.Title>
+                            <Card.Description>
+                                {post?.content}
+                            </Card.Description>
+                        </Card.Body>
+                    </Card.Root>
 
-                    <br />
-                    <br />
-
-                    <h3>comments</h3>
-
-                    {comments.map((cmt) => {
-                        return (
-                                <CommentComponent comment={cmt} key={cmt?._id} />
-                        );
-                    })}
+                    <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
+                        <Card.Body >
+                            <Card.Title mt="2">Discussion</Card.Title>
+                            <Card.Body color={"white"}>
+                                {comments.map((cmt) => {
+                                    return (
+                                        <CommentComponent comment={cmt} key={cmt?._id} />
+                                    );
+                                })}
+                            </Card.Body>
+                        </Card.Body>
+                    </Card.Root>
 
                 </div>
+
+            // <div style={{
+            //     display: "flex",
+            //     alignContent: "center",
+            //     alignItems: "center",
+            //     flexDirection: "column"
+            // }}>
+            //     <h2>{post?.title}</h2>
+            //     <p>
+            //         {post?.content}
+            //     </p>
+
+            //     <br />
+            //     <br />
+
+            //     <h3>comments</h3>
+
+            // {comments.map((cmt) => {
+            //     return (
+            //             <CommentComponent comment={cmt} key={cmt?._id} />
+            //     );
+            // })}
+
+            // </div>
 
         }
     </div>

@@ -69,7 +69,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
 
     return (
         <Collapsible.Root unmountOnExit open={isOpen}>
-            <Box mb={4} ml={4} margin={4}>
+            <Box mb={4} ml={4} margin={0}>
                 <Stack direction="row" spacing={4} padding={2} borderRadius={"10px"}>
                     <Avatar.Root variant={"outline"}>
                         <Avatar.Fallback name="Segun Adebayo" />

@@ -41,32 +41,18 @@ export default function Home() {
         }}>
         {posts.map((post) => {
             return (
-                <Link href={`/post/${post._id}`} key={post._id}>
-                    {/* <div style={{
-                        display: "flex",
-                        alignContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-                        marginBottom: "15px"
-                    }}>
-                        <h2>{post.title}</h2>
-                        <p>{post.content}</p>
-                    </div> */}
 
-                    <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
+                    <Card.Root marginRight={60} marginLeft={60} marginTop={8} key={post?._id}>
+                        <Link href={`/post/${post._id}`} key={post._id}>
                     <Card.Body>
-                        {/* <Avatar.Root size="lg" shape="rounded">
-                        <Avatar.Image src={user?.imageUrl} />
-                        <Avatar.Fallback name={user?.fullName} />
-                        </Avatar.Root> */}
                         <Card.Title mt="2">{post.title}</Card.Title>
                         <Card.Description>
                         {post.content.slice(0, 200)}{post.content.length > 200 ? "..." : ""}
                         </Card.Description>
                     </Card.Body>
+                </Link>
                     </Card.Root>
 
-                </Link>
             );
         })}
         </div>
