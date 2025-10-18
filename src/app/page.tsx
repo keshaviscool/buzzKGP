@@ -89,6 +89,18 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
+            <Box
+              marginRight={60}
+              marginLeft={60}
+              marginTop={8}
+            >
+                {
+                    searchParams.get("by") != "me" ? <><Text>Hey <b> {user?.firstName}</b> 👋🏻</Text>
+              <Text fontSize={30}>checkout what's buzzing in KGP 🐝!</Text></>
+              : <Text fontSize={30}>See what buzz you have created 🗣️</Text>
+                }
+              
+            </Box>
           {posts.map((post) => (
             <Card.Root
               marginRight={60}
@@ -101,8 +113,6 @@ export default function Home() {
                   <Card.Title mt="2">{post.title}</Card.Title>
                   <Card.Title fontSize={11}>{getTimeAgo(post.date_created)}</Card.Title>
                   <Card.Description dangerouslySetInnerHTML={{"__html": post.content.slice(0, 200)}}>
-                    
-                    
                   </Card.Description>
                 </Card.Body>
               </Link>

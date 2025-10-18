@@ -58,12 +58,12 @@ function Navbar() {
               </Link>
               <Link href="/?by=me">
                 <Button colorScheme="gray" variant={by == "me" ? "solid" : "outline"} w="full">
-                  My Posts
+                  My Buzz 🐝
                 </Button>
               </Link>
               <Link href="/post/new">
                 <Button colorScheme="blue" variant="ghost" w="full">
-                  Create Post
+                  Create Buzz 🗣️
                 </Button>
               </Link>
         </HStack>
@@ -135,12 +135,12 @@ function Navbar() {
             >
               <Link href="/create-post">
                 <Button colorScheme="blue" w="full">
-                  Create Post
+                  Create Buzz
                 </Button>
               </Link>
               <Link href="/my-posts">
                 <Button colorScheme="gray" variant="outline" w="full">
-                  My Posts
+                  My Buzz
                 </Button>
               </Link>
 

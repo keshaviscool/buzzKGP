@@ -58,11 +58,15 @@ export default function NewPost() {
         <RedirectToSignIn />
       </SignedOut>
       <Navbar />
+      
 
       <Box maxW="700px" mx="auto" mt={10}>
+
+        <Text fontSize={30}> <strike>busy</strike> buzzing in kgp 😎</Text>
+        <br />
         <form onSubmit={handleSubmit}>
           <Input
-            placeholder="Post title"
+            placeholder="Buzz Headline"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             mb={4}
@@ -71,7 +75,7 @@ export default function NewPost() {
 
           <Editor
             onInit={(_, editor) => (editorRef.current = editor)}
-            initialValue="<p>Write your post here...</p>"
+            initialValue="<p>jot down your buzz here...</p>"
             apiKey="whwj9f1t0gs14sjsz46e1p9pfn78sthq3pw8dtyg5b7gywip"
             init={{
               height: 400,
