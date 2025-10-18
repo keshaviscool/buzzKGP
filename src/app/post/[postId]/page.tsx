@@ -129,7 +129,7 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
                     {/* Comments Section */}
                     <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
                         <Card.Body>
-                            <Card.Title mt="2">Discussion</Card.Title>
+                            <Card.Title mt="2">Discussion 🤔</Card.Title>
                             {message.text && (
                                 <Text
                                     mt={3}
@@ -164,7 +164,7 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
                                     ))
                                 ) : (
                                     <Text fontSize="md" color="gray.500" mt={3}>
-                                        No comments yet. Be the first to share your thoughts!
+                                        No comments yet. Be the first to share your thoughts 💭!
                                     </Text>
                                 )}
 </Box>

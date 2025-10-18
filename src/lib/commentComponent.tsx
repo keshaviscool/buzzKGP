@@ -97,7 +97,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
     return (
         <Collapsible.Root unmountOnExit open={isOpen}>
             <Box mb={4} ml={4} margin={0}>
-                <Stack direction="row" spacing={4} padding={2} borderRadius={"10px"}>
+                <Stack direction="row" spacing={0} padding={0} borderRadius={"10px"}>
                     <Avatar.Root variant={"outline"}>
                         <Avatar.Fallback name={commentUser?.fullName} />
                         <Avatar.Image src={commentUser?.imageUrl} />
@@ -145,7 +145,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                                         />
                                     </Field.Root>
                                 </Fieldset.Content>
-                                <Button size={"xs"} marginLeft={3} variant={"ghost"} marginTop={"0px"} type="submit" onClick={()=> submitReply(user?.id, replyBody, comment._id, comment.post_id, replies, setReplies, setIsReply, setIsOpen)}>
+                                <Button size={"xs"} marginLeft={3} variant={"solid"} marginTop={"0px"} type="submit" onClick={()=> submitReply(user?.id, replyBody, comment._id, comment.post_id, replies, setReplies, setIsReply, setIsOpen)}>
                                     Reply
                                 </Button>
                             </Fieldset.Root>
