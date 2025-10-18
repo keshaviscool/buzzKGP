@@ -5,8 +5,13 @@ const options = {};
 let client;
 let clientPromise: Promise<MongoClient>;
 
+console.log('Environment check:', {
+  hasUri: !!process.env.MONGODB_URI,
+  nodeEnv: process.env.NODE_ENV
+});
+
 if (!uri) {
-  throw new Error("mongodb url missing in env!!");
+  throw new Error(`MongoDB URL missing in env! Node ENV: ${process.env.NODE_ENV}`);
 }
 
 if (process.env.NODE_ENV === "development") {
