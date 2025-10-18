@@ -4,102 +4,102 @@ import Navbar from "@/lib/navbarComponent";
 import { Post } from "@/lib/types";
 import { RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { Avatar, Button, Card } from "@chakra-ui/react"
+import { Avatar, Button, Card, Spinner, Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
+export default function PostDetails({ params }: { params: { postId: string } }) {
+  const [post, setPost] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const [comments, setComments] = useState<any[]>([]);
 
-export default function PostDetails(
-    { params }: { params: { postId: string } }
-) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const postId = (await params).postId;
 
+        const [postRes, commentRes] = await Promise.all([
+          fetch(`/api/posts?post_id=${postId}`),
+          fetch(`/api/comments?post_id=${postId}`),
+        ]);
 
-    const [post, setPost] = useState({});
-    const [loading, setLoading] = useState<boolean>(true);
-    const [comments, setComments] = useState([]);
+        const [postData, commentData] = await Promise.all([
+          postRes.json(),
+          commentRes.json(),
+        ]);
 
-
-    useEffect(() => {
-
-        const getPost = async () => {
-            const postId = (await params).postId;
-            const res = await fetch(`/api/posts?post_id=${postId}`);
-            const data = await res.json();
-            setPost(data);
-
-        }
-        const getComments = async () => {
-            const postId = (await params).postId;
-            const res = await fetch(`/api/comments?post_id=${postId}`);
-            const data = await res.json();
-            console.log(data, "main post commments");
-
-            setComments(data);
-        }
-
-        getPost();
-        getComments();
+        setPost(postData);
+        setComments(commentData);
+      } catch (error) {
+        console.error("Error fetching post or comments:", error);
+      } finally {
         setLoading(false);
+      }
+    };
 
-    }
-        , [])
+    fetchData();
+  }, []);
 
+  return (
+    <div>
+      <Navbar />
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
 
-    return <div>
-        <Navbar />
-        <SignedOut>
-            <RedirectToSignIn />
-        </SignedOut>
-        {
-            loading ? "page loading mfer" :
-                <div>
-                    <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
-                        <Card.Body>
-                            <Card.Title mt="2">{post?.title}</Card.Title>
-                            <Card.Description>
-                                {post?.content}
-                            </Card.Description>
-                        </Card.Body>
-                    </Card.Root>
+      {/* Loading Spinner */}
+      {loading ? (
+        <Box
+          height="70vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+        >
+          <Spinner size="xl" color="blue.500" thickness="4px" speed="0.8s" />
+          <Text mt={3} fontSize="lg" color="gray.600">
+            Loading post...
+          </Text>
+        </Box>
+      ) : (
+        <div>
+          {/* Fallback for no post */}
+          {!post || !post.title ? (
+            <Box textAlign="center" mt={20}>
+              <Text fontSize="xl" fontWeight="medium" color="gray.500">
+                This post doesn’t exist or may have been deleted.
+              </Text>
+            </Box>
+          ) : (
+            <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
+              <Card.Body>
+                <Card.Title mt="2">{post?.title}</Card.Title>
+                <Card.Description
+                  dangerouslySetInnerHTML={{ __html: post?.content }}
+                />
+              </Card.Body>
+            </Card.Root>
+          )}
 
-                    <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
-                        <Card.Body >
-                            <Card.Title mt="2">Discussion</Card.Title>
-                            <Card.Body color={"white"}>
-                                {comments.map((cmt) => {
-                                    return (
-                                        <CommentComponent comment={cmt} key={cmt?._id} />
-                                    );
-                                })}
-                            </Card.Body>
-                        </Card.Body>
-                    </Card.Root>
+          {/* Comments Section */}
+          <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
+            <Card.Body>
+              <Card.Title mt="2">Discussion</Card.Title>
 
-                </div>
-
-            // <div style={{
-            //     display: "flex",
-            //     alignContent: "center",
-            //     alignItems: "center",
-            //     flexDirection: "column"
-            // }}>
-            //     <h2>{post?.title}</h2>
-            //     <p>
-            //         {post?.content}
-            //     </p>
-
-            //     <br />
-            //     <br />
-
-            //     <h3>comments</h3>
-
-            // {comments.map((cmt) => {
-            //     return (
-            //             <CommentComponent comment={cmt} key={cmt?._id} />
-            //     );
-            // })}
-
-            // </div>
-
-        }
+              <Card.Body color="white">
+                {comments.length > 0 ? (
+                  comments.map((cmt) => (
+                    <CommentComponent comment={cmt} key={cmt?._id} />
+                  ))
+                ) : (
+                  <Text fontSize="md" color="gray.500" mt={3}>
+                    No comments yet. Be the first to share your thoughts!
+                  </Text>
+                )}
+              </Card.Body>
+            </Card.Body>
+          </Card.Root>
+        </div>
+      )}
     </div>
+  );
 }
