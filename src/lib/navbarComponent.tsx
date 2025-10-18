@@ -44,7 +44,7 @@ function Navbar() {
         <HStack spacing={2} justifySelf={"start"}>
           <Link href={"/"}>
           <Text fontSize="lg" fontWeight="bold" >
-            Buzz KGP
+            Buzz KGP 👀
           </Text>
           </Link>
         </HStack>
@@ -53,7 +53,7 @@ function Navbar() {
           
               <Link href="/">
                 <Button colorScheme="blue" variant={by != "me" ? "solid" : "outline"} w="full">
-                  Home
+                  Home 🏡
                 </Button>
               </Link>
               <Link href="/?by=me">
