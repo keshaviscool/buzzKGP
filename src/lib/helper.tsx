@@ -21,12 +21,6 @@ export async function seedDummyPosts() {
             user_id: 2,
             date_created: new Date(),
         },
-        {
-            title: "suicide post #42069",
-            content: "i might die.",
-            user_id: 3,
-            date_created: new Date(),
-        },
     ];
 
     const result = await postsCollection.insertMany(dummyPosts);

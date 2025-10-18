@@ -33,7 +33,6 @@ const submitReply = (user_id: string, body: string, parent_comment_id: string, p
     req.then((res)=>{ 
         setIsReply(false)
         payload["_id"] = res.data.inserted.insertedId;
-        console.log("payload", payload)
         replies.push(payload)
         setIsOpen(true)
 

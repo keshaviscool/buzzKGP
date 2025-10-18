@@ -10,7 +10,6 @@ export async function POST(request:Request) {
     // Now 'data' contains the JSON object sent by the client
 
     // Process the data, e.g., save to a database, perform calculations
-    console.log('Received post data:', data);
     const inserted_ = await db.collection("posts").insertOne(data)
 
     // Send a response back to the client

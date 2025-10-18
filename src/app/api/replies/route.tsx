@@ -22,7 +22,6 @@ const db = client.db(process.env.MONGODB_DB);
     for (let i = 0; i < comment?.comment_replies_ids.length; i++) {
         const reply_id = comment?.comment_replies_ids[i];
         const obj = await db.collection("comments").findOne({ _id: new ObjectId(reply_id) });
-        console.log(obj, "replies*******");
         
         replies_.push(obj)
     }
@@ -45,7 +44,6 @@ const db = client.db(process.env.MONGODB_DB);
     // Now 'data' contains the JSON object sent by the client
 
     // Process the data, e.g., save to a database, perform calculations
-    console.log('Received data:', data);
     const inserted_ = await db.collection("comments").insertOne(data)
 
     if (inserted_.acknowledged) {
