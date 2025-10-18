@@ -21,10 +21,10 @@ services:
     depends_on:
       - mongo
     environment:
-      MONGODB_URI: buzzKGP
+      MONGODB_URI: mongodb+srv://keshav:keshav@kalster69.42ysvju.mongodb.net/?retryWrites=true&w=majority&appName=kalster69
       MONGODB_DB: buzzKGP
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_Z29sZGVuLW1vbGx1c2stNDEuY2xlcmsuYWNjb3VudHMuZGV2JA
+      CLERK_SECRET_KEY: sk_test_Vi7EocsDNuZKnBPXX5611cGnmgQxzkaMMWwLIRvVj9
 
 volumes:
   mongo-data:
