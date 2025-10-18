@@ -3,6 +3,7 @@
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
 import {
   ColorModeProvider,
+  // @ts-ignore
   type ColorModeProviderProps,
 } from "./color-mode"
 

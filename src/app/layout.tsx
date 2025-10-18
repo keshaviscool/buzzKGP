@@ -1,7 +1,4 @@
 import { Provider } from "@/components/ui/provider"
-
-import { type Metadata } from 'next'
-import { Navbar } from "@/lib/navbarComponent" 
 import {
   ClerkProvider,
   SignInButton,

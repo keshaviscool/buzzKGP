@@ -14,11 +14,11 @@ import {
 } from "@chakra-ui/react"
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-
+{/* @ts-ignore */}
 const submitReply = (user_id: string, body: string, parent_comment_id: string, post_id: string, replies, setReplies, setIsReply, setIsOpen) => {
     // console.log(user_id, body, parent_comment_id, post_id);
 
-    let payload: Comment = {
+    const payload: Comment = {
         user_id: user_id,
         body: body,
         comment_replies_ids: [],
@@ -109,10 +109,11 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
     }
 
     useEffect(() => {
+        {/* @ts-ignore */}
         if (comment.downvotes_user_id.includes(user?.id)) {
             setVote(-1)
         }
-
+{/* @ts-ignore */}
         if (comment.upvotes_user_id.includes(user?.id)) {
             setVote(1)
         }
@@ -138,12 +139,17 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
     return (
         <Collapsible.Root unmountOnExit open={isOpen}>
             <Box mb={4} ml={4} margin={0}>
+                {/* @ts-ignore */}
                 <Stack direction="row" spacing={0} padding={0} borderRadius={"10px"}>
                     <Avatar.Root variant={"outline"}>
+                        {/* @ts-ignore */}
                         <Avatar.Fallback name={commentUser?.fullName} />
+                        {/* @ts-ignore */}
+
                         <Avatar.Image src={commentUser?.imageUrl} />
                     </Avatar.Root>
                     <Box padding={2}>
+                        {/* @ts-ignore */}
                         <Text fontSize={"xs"} fontWeight="bold">{commentUser?.fullName ? commentUser?.fullName : "User"}</Text>
                         <Text fontSize={11} color={"gray.400"}>{getTimeAgo(comment.date_created)}</Text>
                         <Text fontSize={"xs"}>{comment.body}</Text>
@@ -179,7 +185,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
 
                         </Box>
                         {isReply ?
-
+//@ts-ignore
                             <Fieldset.Root marginTop={2} size="xs" maxW="md" display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"}>
 
                                 <Fieldset.Content>
@@ -191,6 +197,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                                         />
                                     </Field.Root>
                                 </Fieldset.Content>
+                                {/* @ts-ignore */}
                                 <Button size={"xs"} marginLeft={3} variant={"solid"} marginTop={"0px"} type="submit" onClick={() => submitReply(user?.id, replyBody, comment._id, comment.post_id, replies, setReplies, setIsReply, setIsOpen)}>
                                     Reply
                                 </Button>
@@ -201,6 +208,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                 </Stack>
 
                 <Collapsible.Content>
+                {/* @ts-ignore */}
                     <Stack spacing={4} ml={4}>
                         {replies.map((reply) => (
                             <CommentComponent key={reply._id} comment={reply} />

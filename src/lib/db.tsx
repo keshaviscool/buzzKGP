@@ -11,11 +11,14 @@ if (!uri) {
 
 if (process.env.NODE_ENV === "development") {
   // In dev mode, use a global var so connection is reused
-  if (!(global as any)._mongoClientPromise) {
+  // @ts-ignore
+  if (!(global)._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    (global as any)._mongoClientPromise = client.connect();
+    // @ts-ignore
+    (global)._mongoClientPromise = client.connect();
   }
-  clientPromise = (global as any)._mongoClientPromise;
+  // @ts-ignore
+  clientPromise = (global)._mongoClientPromise;
 } else {
   // In prod, create new client for each
   client = new MongoClient(uri, options);

@@ -77,7 +77,7 @@ export default function Home() {
           justifyContent="center"
           flexDirection="column"
         >
-          <Spinner size="xl" color="blue.500" thickness="4px" speed="0.8s" />
+          <Spinner size="xl" color="blue.500" borderWidth="4px" />
           <Text mt={3} fontSize="lg" color="gray.600">
             Loading posts...
           </Text>

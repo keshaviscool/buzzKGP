@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   const hasUpvoted = doc.upvotes_user_id.includes(user_id);
   const hasDownvoted = doc.downvotes_user_id.includes(user_id);
 
-  let update: any = {};
+  let update = {};
 
   if (reaction === "upvote") {
     if (hasUpvoted) {

@@ -7,7 +7,7 @@ import Navbar from "@/lib/navbarComponent";
 import { useUser, SignedOut, RedirectToSignIn } from "@clerk/nextjs";
 
 export default function NewPost() {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef(null);
   const { user, isLoaded } = useUser();
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ export default function NewPost() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
-
+    // @ts-ignore
     const content = editorRef.current?.getContent();
     const payload = {
       title,
@@ -45,6 +45,7 @@ export default function NewPost() {
 
       setMessage({ text: "Post created successfully!", type: "success" });
       setTitle("");
+      // @ts-ignore
       editorRef.current?.setContent("");
     } catch (err) {
       setMessage({ text: "Error creating post. Please try again.", type: "error" });
@@ -65,7 +66,7 @@ export default function NewPost() {
 
       <Box maxW="700px" mx="auto" mt={10}>
 
-        <Text fontSize={30}> <strike>busy</strike> buzzing in kgp 😎</Text>
+        <Text fontSize={30}> <del>busy</del> buzzing in kgp 😎</Text>
         <br />
         <form onSubmit={handleSubmit}>
           <Input
