@@ -2,7 +2,7 @@ import { Box, Text, Button, Stack, Collapsible, Avatar, IconButton, Textarea } f
 import { useEffect, useState } from 'react';
 import { Comment } from './types';
 import { GoReply } from "react-icons/go";
-import { BiUpvote } from "react-icons/bi";
+import { BiUpvote, BiDownvote, BiSolidUpvote, BiSolidDownvote } from "react-icons/bi";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 import {
@@ -25,20 +25,23 @@ const submitReply = (user_id: string, body: string, parent_comment_id: string, p
         reply_to: "comment",
         parent_comment_id: parent_comment_id,
         post_id: post_id,
-        date_created: new Date()
+        date_created: new Date(),
+        upvotes: 0,
+        upvotes_user_id: [],
+        downvotes_user_id: []
 
     }
-    
+
     const req = axios.post("/api/replies", payload)
-    req.then((res)=>{ 
+    req.then((res) => {
         setIsReply(false)
         payload["_id"] = res.data.inserted.insertedId;
         replies.push(payload)
         setIsOpen(true)
 
     })
-    
-    
+
+
     // const res = await fetch("/api/replies");
     // if (!res.ok) throw new Error("Failed to fetch posts");
     // const data: Post[] = await res.json();
@@ -54,28 +57,66 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
     const [replies, setReplies] = useState<Comment[]>([]);
     const [commentUser, setCommentUser] = useState({});
 
-    const getTimeAgo = (dateInput: string | Date)=> {
-    const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-  const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    const [vote, setVote] = useState(0); // 1--> upvote, 0--> no vote, -1 --> downvote
+    const [voteCount, setVoteCount] = useState(0)
 
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const weeks = Math.floor(days / 7);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(days / 365);
+    const getTimeAgo = (dateInput: string | Date) => {
+        const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+        const now = new Date();
+        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes} min${minutes > 1 ? "s" : ""} ago`;
-  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
-  if (weeks < 5) return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
-  if (months < 12) return `${months} month${months > 1 ? "s" : ""} ago`;
-  return `${years} year${years > 1 ? "s" : ""} ago`;
-  }
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const weeks = Math.floor(days / 7);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(days / 365);
+
+        if (minutes < 1) return "just now";
+        if (minutes < 60) return `${minutes} min${minutes > 1 ? "s" : ""} ago`;
+        if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+        if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
+        if (weeks < 5) return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+        if (months < 12) return `${months} month${months > 1 ? "s" : ""} ago`;
+        return `${years} year${years > 1 ? "s" : ""} ago`;
+    }
+
+    const handleReaction = async (reaction: string) => {
+        // alert("called")
+        if (!user) return;
+        const user_id: string = user.id;
+        if (reaction == "up") {
+            
+                const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=upvote&content_id=${comment._id}`);
+                if (!res.ok) throw new Error("Failed to upvote");
+                const data = await res.json()
+                setVoteCount(data.updated.upvotes);
+
+                if (data.updated.upvotes_user_id.includes(user_id)){setVote(1)} else setVote(0)
+                
+        // }
+        }
+        if (reaction == "down") {
+            // if (comment.downvotes_user_id.includes(user_id) ){return} else {
+                const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=downvote&content_id=${comment._id}`);
+                if (!res.ok) throw new Error("Failed to downvote");
+                const data = await res.json()
+                setVoteCount(data.updated.upvotes);
+
+                if (data.updated.downvotes_user_id.includes(user_id)){setVote(-1)} else setVote(0)
+            // }
+        }
+    }
 
     useEffect(() => {
+        if (comment.downvotes_user_id.includes(user?.id) ) {
+            setVote(-1)
+        } 
+
+        if (comment.upvotes_user_id.includes(user?.id) ) {
+            setVote(1)
+        } 
+        setVoteCount(comment?.upvotes)
         const getReplies = async () => {
             const commentId = comment._id;
             const res = await fetch(`/api/replies?comment_id=${commentId}`);
@@ -92,7 +133,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
 
         getReplies();
         getCommentUser();
-    }, []);
+    }, [user]);
 
     return (
         <Collapsible.Root unmountOnExit open={isOpen}>
@@ -122,8 +163,13 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                                     >{isOpen ? <FaMinus size={"10px"} /> : <FaPlus size={"10px"} />}</IconButton>
                                 </Collapsible.Trigger>
                             }
-                            <Button size={"xs"} variant={"ghost"} style={{ display: "flex" }} padding={0.5}>
-                                <BiUpvote />
+                            <Button size={"xs"} onClick={() => handleReaction("up")} variant={"ghost"} style={{ display: "flex" }} padding={0.5}>
+                                {vote == 0 || vote == -1 ? <BiUpvote /> : <BiSolidUpvote />}
+                            </Button>
+                            <Text fontSize={"xs"}  style={{ display: "flex", alignItems: "center", justifyContent: "center" }} padding={0.5}>{voteCount}</Text>
+                            <Button size={"xs"} onClick={() => handleReaction("down")} variant={"ghost"} style={{ display: "flex" }} padding={0.5}>
+                                {vote == 0 || vote == 1 ? <BiDownvote /> : <BiSolidDownvote />}
+
                             </Button>
                             <Button size={"xs"} variant={"ghost"} style={{ display: "flex" }} padding={0.5} onClick={() => setIsReply(!isReply)}>
 
@@ -139,13 +185,13 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                                 <Fieldset.Content>
                                     <Field.Root>
                                         {/* <Field.Label>Reply: </Field.Label> */}
-                                        <Input size={"xs"} name="reply_comment" 
-                                        value={replyBody}
-                                        onChange={(e) => setReplyBody(e.target.value) }
+                                        <Input size={"xs"} name="reply_comment"
+                                            value={replyBody}
+                                            onChange={(e) => setReplyBody(e.target.value)}
                                         />
                                     </Field.Root>
                                 </Fieldset.Content>
-                                <Button size={"xs"} marginLeft={3} variant={"solid"} marginTop={"0px"} type="submit" onClick={()=> submitReply(user?.id, replyBody, comment._id, comment.post_id, replies, setReplies, setIsReply, setIsOpen)}>
+                                <Button size={"xs"} marginLeft={3} variant={"solid"} marginTop={"0px"} type="submit" onClick={() => submitReply(user?.id, replyBody, comment._id, comment.post_id, replies, setReplies, setIsReply, setIsOpen)}>
                                     Reply
                                 </Button>
                             </Fieldset.Root>

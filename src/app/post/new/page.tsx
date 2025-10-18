@@ -26,6 +26,9 @@ export default function NewPost() {
       content,
       user_id: user.id,
       date_created: new Date(),
+      upvotes: 0,
+      upvotes_user_id: [],
+    downvotes_user_id: []
     };
 
     try {

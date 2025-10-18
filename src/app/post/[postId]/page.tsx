@@ -33,7 +33,10 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
             comment_replies_ids: [],
             reply_to: "post",
             post_id: post._id,
-            date_created: new Date()
+            date_created: new Date(),
+            upvotes: 0,
+            upvotes_user_id: [],
+            downvotes_user_id: []
 
         }
 
