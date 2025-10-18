@@ -2,8 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   env: {
-    MONGODB_URI: "mongodb+srv://keshav:keshav@kalster69.42ysvju.mongodb.net/?retryWrites=true&w=majority&appName=kalster69"!,
-    MONGODB_DB: "buzzKGP"!
+    MONGODB_URI: process.env.MONGODB_URI!,
+    MONGODB_DB: process.env.MONGODB_DB!,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!
   }
 };
 

@@ -31,8 +31,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Debug log to verify environment variables
+  console.log('Clerk Environment Check:', {
+    hasPublishableKey: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    publishableKeyLength: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.length
+  });
+
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+    console.error('Missing Clerk Publishable Key in environment');
+  }
+
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en" suppressHydrationWarning>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {/* <header className="flex justify-end items-center p-4 gap-4 h-16">
