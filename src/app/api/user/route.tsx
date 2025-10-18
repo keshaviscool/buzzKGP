@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClerkClient } from '@clerk/backend'
 
-const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY })
+const clerkClient = createClerkClient({ secretKey: "sk_test_Vi7EocsDNuZKnBPXX5611cGnmgQxzkaMMWwLIRvVj9" })
 
 export async function GET(req: Request) {
   try {

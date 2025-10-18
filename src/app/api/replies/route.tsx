@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB);
+  const db = client.db("buzzKGP");
 
   try {
     const { searchParams } = new URL(request.url);
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB);
+  const db = client.db("buzzKGP");
   try {
     const data = await request.json();
 

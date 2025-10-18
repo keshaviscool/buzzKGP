@@ -1,18 +1,13 @@
 import { MongoClient } from "mongodb";
-const uri= process.env.MONGODB_URI;
+const uri= "mongodb+srv://keshav:keshav@kalster69.42ysvju.mongodb.net/?retryWrites=true&w=majority&appName=kalster69";
 const options = {};
 
 let client;
 let clientPromise: Promise<MongoClient>;
 
-console.log('Environment check:', {
-  hasUri: !!process.env.MONGODB_URI,
-  nodeEnv: process.env.NODE_ENV
-});
-
-if (!uri) {
-  throw new Error(`MongoDB URL missing in env! Node ENV: ${process.env.NODE_ENV}`);
-}
+// if (!uri) {
+//   throw new Error(`MongoDB URL missing in env! Node ENV: ${process.env.NODE_ENV}`);
+// }
 
 if (process.env.NODE_ENV === "development") {
   // In dev mode, use a global var so connection is reused

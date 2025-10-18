@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB);
+    const db = client.db("buzzKGP");
 
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("post_id"); 

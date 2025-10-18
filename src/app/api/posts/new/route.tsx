@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request:Request) {
     const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB);
+    const db = client.db("buzzKGP");
     const data = await request.json(); // Parses the request body as JSON
     // Now 'data' contains the JSON object sent by the client
 

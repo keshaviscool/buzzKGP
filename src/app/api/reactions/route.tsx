@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 export async function GET(request: Request) {
   const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB);
+    const db = client.db("buzzKGP");
 
   const { searchParams } = new URL(request.url);
   const reaction = searchParams.get("reaction"); // "upvote" or "downvote"
