@@ -6,9 +6,11 @@ import { RedirectToSignIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Avatar, Button, Card, Spinner, Box, Text, Fieldset, Textarea, Field, Input } from "@chakra-ui/react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function PostDetails({ params }: { params: { postId: string } }) {
     const { user, isLoaded } = useUser();
+    const searchParams = useSearchParams();
     const [post, setPost] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(true);
     const [comments, setComments] = useState<any[]>([]);
@@ -68,7 +70,7 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
 
                 const [postRes, commentRes] = await Promise.all([
                     fetch(`/api/posts?post_id=${postId}`),
-                    fetch(`/api/comments?post_id=${postId}`),
+                    fetch(`/api/comments?post_id=${postId}&sort=${searchParams.get("sort")}`),
                 ]);
 
                 const [postData, commentData] = await Promise.all([
@@ -86,7 +88,8 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
         };
 
         fetchData();
-    }, [message]);
+    }, [message, searchParams]);
+
 
     return (
         <div>
@@ -145,7 +148,19 @@ export default function PostDetails({ params }: { params: { postId: string } }) 
 
                             <Card.Body >
                                 <Fieldset.Root marginTop={2} size="xs" maxW="100%" display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"}>
-
+                                    <Text fontSize={"xs"} w={20} marginLeft={3}>
+                                        Sort by:
+                                    </Text>
+                                    <Link href={"?sort=popular"}>
+                                    <Button size={"xs"} marginLeft={3} variant={searchParams.get("sort") == "popular" || !searchParams.get("sort")  ? "solid" : "outline"} marginTop={"0px"}>
+                                        Popularity
+                                    </Button>
+                                    </Link>
+                                    <Link href={"?sort=latest"}>
+                                    <Button size={"xs"} marginLeft={3} marginRight={3} variant={searchParams.get("sort") == "latest" ? "solid" : "outline"} marginTop={"0px"}>
+                                        Latest
+                                    </Button>
+                                    </Link>
                                     <Fieldset.Content>
                                         <Field.Root>
                                             {/* <Field.Label>Reply: </Field.Label> */}

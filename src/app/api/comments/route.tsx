@@ -15,10 +15,18 @@ export async function GET(request: Request) {
     // Parse query params
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("post_id"); // returns string | null
+    const sort = searchParams.get("sort");
 
-    const comments = await db.collection("comments").find({ "post_id": postId, "reply_to": "post" }).toArray();
 
-    return NextResponse.json(comments);
+    
+    if (sort == "latest") {
+      const comments = await db.collection("comments").find({ "post_id": postId, "reply_to": "post" }).toArray();
+      return NextResponse.json(comments.reverse());
+    } else {
+      const comments = await db.collection("comments").find({ "post_id": postId, "reply_to": "post" }).sort({ upvotes: -1 }).toArray();
+      return NextResponse.json(comments);
+    }
+
   } catch (error) {
     console.error(error);
     return NextResponse.json(

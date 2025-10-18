@@ -86,36 +86,36 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
         if (!user) return;
         const user_id: string = user.id;
         if (reaction == "up") {
-            
-                const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=upvote&content_id=${comment._id}`);
-                if (!res.ok) throw new Error("Failed to upvote");
-                const data = await res.json()
-                setVoteCount(data.updated.upvotes);
 
-                if (data.updated.upvotes_user_id.includes(user_id)){setVote(1)} else setVote(0)
-                
-        // }
+            const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=upvote&content_id=${comment._id}`);
+            if (!res.ok) throw new Error("Failed to upvote");
+            const data = await res.json()
+            setVoteCount(data.updated.upvotes);
+
+            if (data.updated.upvotes_user_id.includes(user_id)) { setVote(1) } else setVote(0)
+
+            // }
         }
         if (reaction == "down") {
             // if (comment.downvotes_user_id.includes(user_id) ){return} else {
-                const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=downvote&content_id=${comment._id}`);
-                if (!res.ok) throw new Error("Failed to downvote");
-                const data = await res.json()
-                setVoteCount(data.updated.upvotes);
+            const res = await fetch(`/api/reactions?user_id=${user_id}&type=comment&reaction=downvote&content_id=${comment._id}`);
+            if (!res.ok) throw new Error("Failed to downvote");
+            const data = await res.json()
+            setVoteCount(data.updated.upvotes);
 
-                if (data.updated.downvotes_user_id.includes(user_id)){setVote(-1)} else setVote(0)
+            if (data.updated.downvotes_user_id.includes(user_id)) { setVote(-1) } else setVote(0)
             // }
         }
     }
 
     useEffect(() => {
-        if (comment.downvotes_user_id.includes(user?.id) ) {
+        if (comment.downvotes_user_id.includes(user?.id)) {
             setVote(-1)
-        } 
+        }
 
-        if (comment.upvotes_user_id.includes(user?.id) ) {
+        if (comment.upvotes_user_id.includes(user?.id)) {
             setVote(1)
-        } 
+        }
         setVoteCount(comment?.upvotes)
         const getReplies = async () => {
             const commentId = comment._id;
@@ -166,7 +166,7 @@ const CommentComponent = ({ comment }: { comment: Comment }) => {
                             <Button size={"xs"} onClick={() => handleReaction("up")} variant={"ghost"} style={{ display: "flex" }} padding={0.5}>
                                 {vote == 0 || vote == -1 ? <BiUpvote /> : <BiSolidUpvote />}
                             </Button>
-                            <Text fontSize={"xs"}  style={{ display: "flex", alignItems: "center", justifyContent: "center" }} padding={0.5}>{voteCount}</Text>
+                            <Text fontSize={"xs"} style={{ display: "flex", alignItems: "center", justifyContent: "center" }} padding={0.5}>{voteCount}</Text>
                             <Button size={"xs"} onClick={() => handleReaction("down")} variant={"ghost"} style={{ display: "flex" }} padding={0.5}>
                                 {vote == 0 || vote == 1 ? <BiDownvote /> : <BiSolidDownvote />}
 

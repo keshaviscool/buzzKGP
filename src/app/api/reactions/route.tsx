@@ -11,8 +11,6 @@ export async function GET(request: Request) {
   const type = searchParams.get("type"); // "post" or "comment"
   const content_id = searchParams.get("content_id");
 
-  console.log(reaction, user_id, type, content_id)
-
   if (!reaction || !user_id || !type || !content_id) {
     return new Response("Missing required parameters", { status: 400 });
   }
