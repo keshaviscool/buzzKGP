@@ -74,46 +74,55 @@ function PostListContent() {
   }
 
   return (
-    <div
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box marginRight={60} marginLeft={60} marginTop={8}>
+    <Box w="full">
+      <Box 
+        maxW="container.xl" 
+        mx="auto" 
+        px={{ base: 4, md: 8, lg: 16 }} 
+        py={8}
+      >
         {searchParams.get("by") !== "me" ? (
           <>
-            <Text>
+            <Text fontSize={{ base: "lg", md: "xl" }}>
               Hey <b>{user?.firstName}</b> 👋🏻
             </Text>
-            <Text fontSize={30}>checkout what&apos;s buzzing in KGP 🐝!</Text>
+            <Text fontSize={{ base: "2xl", md: "3xl" }}>checkout what&apos;s buzzing in KGP 🐝!</Text>
           </>
         ) : (
-          <Text fontSize={30}>See what buzz you have created 🗣️</Text>
+          <Text fontSize={{ base: "2xl", md: "3xl" }}>See what buzz you have created 🗣️</Text>
         )}
       </Box>
-      {posts.map((post) => (
-        <Card.Root marginRight={60} marginLeft={60} marginTop={8} key={post?._id}>
-          <Link href={`/post/${post._id}`} key={post._id}>
-            <Card.Body>
-              <Card.Title mt="2">{post.title}</Card.Title>
-              <Card.Title fontSize={11}>{getTimeAgo(post.date_created)}</Card.Title>
-              <Card.Description
-                dangerouslySetInnerHTML={{ __html: post.content.slice(0, 200) }}
-              ></Card.Description>
-            </Card.Body>
-          </Link>
-        </Card.Root>
-      ))}
 
-      {posts.length === 0 && (
-        <Box textAlign="center" mt={10}>
-          <Text fontSize="lg" color="gray.500">
-            No posts yet. Create one!
-          </Text>
-        </Box>
-      )}
-    </div>
+      <Box maxW="container.xl" mx="auto">
+        {posts.map((post) => (
+          <Box 
+            px={{ base: 4, md: 8, lg: 16 }} 
+            mb={4} 
+            key={post?._id}
+          >
+            <Link href={`/post/${post._id}`}>
+              <Card.Root>
+                <Card.Body>
+                  <Card.Title mt="2">{post.title}</Card.Title>
+                  <Card.Title fontSize="xs">{getTimeAgo(post.date_created)}</Card.Title>
+                  <Card.Description
+                    dangerouslySetInnerHTML={{ __html: post.content.slice(0, 200) }}
+                  ></Card.Description>
+                </Card.Body>
+              </Card.Root>
+            </Link>
+          </Box>
+        ))}
+
+        {posts.length === 0 && (
+          <Box textAlign="center" mt={10} px={{ base: 4, md: 8, lg: 16 }}>
+            <Text fontSize="lg" color="gray.500">
+              No posts yet. Create one!
+            </Text>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 }
 

@@ -118,7 +118,7 @@ export default function PostDetails() {
   };
 
   return (
-    <div>
+    <Box w="full">
       <Navbar />
       <SignedOut>
         <RedirectToSignIn />
@@ -139,119 +139,132 @@ export default function PostDetails() {
           </Text>
         </Box>
       ) : (
-        <div>
+        <Box w="full">
           {/* Post Fallback */}
           {!post || !post.title ? (
             <Box textAlign="center" mt={20}>
               <Text fontSize="xl" fontWeight="medium" color="gray.500">
-                This post doesn’t exist or may have been deleted.
+                This post doesn't exist or may have been deleted.
               </Text>
             </Box>
           ) : (
-            <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
-              <Card.Body>
-                <Card.Title mt="2">{post?.title}</Card.Title>
-                <Card.Description
-                  dangerouslySetInnerHTML={{ __html: post?.content }}
-                />
-              </Card.Body>
-            </Card.Root>
+            <Box maxW="container.xl" mx="auto" px={{ base: 4, md: 8, lg: 16 }} mb={8}>
+              <Card.Root>
+                <Card.Body>
+                  <Card.Title mt="2" fontSize={{ base: "xl", md: "2xl" }}>{post?.title}</Card.Title>
+                  <Card.Description
+                    dangerouslySetInnerHTML={{ __html: post?.content }}
+                    fontSize={{ base: "md", md: "lg" }}
+                  />
+                </Card.Body>
+              </Card.Root>
+            </Box>
           )}
 
           {/* Comments Section */}
-          <Card.Root marginRight={60} marginLeft={60} marginTop={8}>
-            <Card.Body>
-              <Card.Title mt="2">Discussion 🤔</Card.Title>
-
-              {message.text && (
-                <Text
-                  mt={3}
-                  color={message.type === "success" ? "green.500" : "red.500"}
-                  fontWeight="medium"
-                >
-                  {message.text}
-                </Text>
-              )}
-
-              {/* Comment input + sort */}
+          <Box maxW="container.xl" mx="auto" px={{ base: 4, md: 8, lg: 16 }} mb={8}>
+            <Card.Root>
               <Card.Body>
-                <Fieldset.Root
-                  marginTop={2}
-                  maxW="100%"
-                  display={"flex"}
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  <Text fontSize={"xs"} w={20} marginLeft={3}>
-                    Sort by:
-                  </Text>
-                  <Link href={"?sort=popular"}>
-                    <Button
-                      size={"xs"}
-                      marginLeft={3}
-                      variant={
-                        searchParams.get("sort") == "popular" || !searchParams.get("sort")
-                          ? "solid"
-                          : "outline"
-                      }
-                      marginTop={"0px"}
-                    >
-                      Popularity
-                    </Button>
-                  </Link>
-                  <Link href={"?sort=latest"}>
-                    <Button
-                      size={"xs"}
-                      marginLeft={3}
-                      marginRight={3}
-                      variant={searchParams.get("sort") == "latest" ? "solid" : "outline"}
-                      marginTop={"0px"}
-                    >
-                      Latest
-                    </Button>
-                  </Link>
+                <Card.Title mt="2" fontSize={{ base: "lg", md: "xl" }}>Discussion 🤔</Card.Title>
 
-                  <Fieldset.Content>
-                    <Field.Root>
-                      <Input
-                        size={"xs"}
-                        name="reply_comment"
-                        value={body}
-                        placeholder="Make a buzzz 🙂‍↔️"
-                        onChange={(e) => setBody(e.target.value)}
-                      />
-                    </Field.Root>
-                  </Fieldset.Content>
-
-                  <Button
-                    size={"xs"}
-                    marginLeft={3}
-                    variant={"solid"}
-                    marginTop={"0px"}
-                    onClick={handleSubmit}
+                {message.text && (
+                  <Text
+                    mt={3}
+                    color={message.type === "success" ? "green.500" : "red.500"}
+                    fontWeight="medium"
                   >
-                    Comment
-                  </Button>
-                </Fieldset.Root>
+                    {message.text}
+                  </Text>
+                )}
+
+                {/* Comment input + sort */}
+                <Box
+                  display="flex"
+                  flexDirection={{ base: "column", md: "row" }}
+                  alignItems={{ base: "stretch", md: "center" }}
+                  gap={4}
+                  mt={4}
+                >
+                  {/* Sort Controls */}
+                  <Box 
+                    display="flex" 
+                    alignItems="center"
+                    gap={2}
+                    flexShrink={0}
+                    flexWrap={{ base: "wrap", md: "nowrap" }}
+                  >
+                    <Text fontSize="sm" fontWeight="medium" whiteSpace="nowrap">
+                      Sort by:
+                    </Text>
+                    <Link href="?sort=popular">
+                      <Button
+                        size={{ base: "sm", md: "xs" }}
+                        variant={
+                          searchParams.get("sort") == "popular" || !searchParams.get("sort")
+                            ? "solid"
+                            : "outline"
+                        }
+                      >
+                        Popularity
+                      </Button>
+                    </Link>
+                    <Link href="?sort=latest">
+                      <Button
+                        size={{ base: "sm", md: "xs" }}
+                        variant={searchParams.get("sort") == "latest" ? "solid" : "outline"}
+                      >
+                        Latest
+                      </Button>
+                    </Link>
+                  </Box>
+
+                  {/* Comment Input */}
+                  <Box 
+                    display="flex" 
+                    flex="1"
+                    gap={2}
+                  >
+                    <Input
+                      size={{ base: "sm", md: "xs" }}
+                      value={body}
+                      placeholder="Make a buzzz 🙂‍↔️"
+                      onChange={(e) => setBody(e.target.value)}
+                    />
+                    <Button
+                      size={{ base: "sm", md: "xs" }}
+                      variant="solid"
+                      onClick={handleSubmit}
+                      flexShrink={0}
+                    >
+                      Comment
+                    </Button>
+                  </Box>
+                </Box>
 
                 {/* Comments List */}
-                <Box mt={5}>
+                <Box mt={8}>
                   {comments.length > 0 ? (
-                    comments.map((cmt: Comment) => (
-                      <CommentComponent comment={cmt} key={cmt?._id} />
-                    ))
+                    <Box display="flex" flexDirection="column" gap={4}>
+                      {comments.map((cmt: Comment) => (
+                        <CommentComponent comment={cmt} key={cmt?._id} />
+                      ))}
+                    </Box>
                   ) : (
-                    <Text fontSize="md" color="gray.500" mt={3}>
+                    <Text 
+                      fontSize={{ base: "md", md: "lg" }} 
+                      color="gray.500" 
+                      mt={3}
+                      textAlign="center"
+                    >
                       No comments yet. Be the first to share your thoughts 💭!
                     </Text>
                   )}
                 </Box>
               </Card.Body>
-            </Card.Body>
-          </Card.Root>
-        </div>
+            </Card.Root>
+          </Box>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }

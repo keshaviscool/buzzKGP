@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-const uri= "mongodb+srv://keshav:keshav@kalster69.42ysvju.mongodb.net/?retryWrites=true&w=majority&appName=kalster69";
+const uri= process.env.MONGODB_URI!;
 const options = {};
 
 let client;
