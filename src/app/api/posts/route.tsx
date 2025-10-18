@@ -8,18 +8,24 @@ export async function GET(request: Request) {
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB);
 
-    // Parse query params
     const { searchParams } = new URL(request.url);
-    const postId = searchParams.get("post_id"); // returns string | null
+    const postId = searchParams.get("post_id"); 
+    const user_id = searchParams.get("user_id");
 
     let res;
     if (postId) {
-      // fetch a single post by _id
-      
         res = await db.collection("posts").findOne({"_id": new ObjectId(postId)});
-    } else {
+    } 
+    if (user_id) {
+        res = (await db.collection("posts").find({
+          user_id: user_id
+        }).toArray()).reverse();
+        
+      
+    }
+    if (!postId && !user_id) {
       // fetch all posts
-        res = await db.collection("posts").find().toArray();
+        res = (await db.collection("posts").find({}).toArray()).reverse();
     }
 
     return NextResponse.json(res);

@@ -50,7 +50,7 @@ function Navbar() {
                   Create Post
                 </Button>
               </Link>
-              <Link href="/my-posts">
+              <Link href="/?by=me">
                 <Button colorScheme="gray" variant="outline" w="full">
                   My Posts
                 </Button>
