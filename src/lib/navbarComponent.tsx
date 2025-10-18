@@ -26,11 +26,16 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+import { useSearchParams } from "next/navigation";
 
 function Navbar() {
   const { user } = useUser();
   const { signOut } = useClerk();
   const [isOpen, setIsOpen] = useState(false);
+    const searchParams = useSearchParams();
+
+  const by = searchParams.get("by");
+  
 
   return (
     <Box px={6} py={3} boxShadow="sm" position="sticky" top="0" zIndex="100">
@@ -45,14 +50,20 @@ function Navbar() {
         </HStack>
 
         <HStack spacing={2} justifySelf={"center"}>
-          <Link href="/post/new">
-                <Button colorScheme="blue" w="full">
-                  Create Post
+          
+              <Link href="/">
+                <Button colorScheme="blue" variant={by != "me" ? "solid" : "outline"} w="full">
+                  Home
                 </Button>
               </Link>
               <Link href="/?by=me">
-                <Button colorScheme="gray" variant="outline" w="full">
+                <Button colorScheme="gray" variant={by == "me" ? "solid" : "outline"} w="full">
                   My Posts
+                </Button>
+              </Link>
+              <Link href="/post/new">
+                <Button colorScheme="blue" variant="ghost" w="full">
+                  Create Post
                 </Button>
               </Link>
         </HStack>
