@@ -131,18 +131,6 @@ npm run dev
 
 5. Open [http://localhost:3000](http://localhost:3000)
 
-## Deployment
-
-The application can be deployed on Vercel with the following steps:
-
-1. Connect your GitHub repository to Vercel
-2. Configure environment variables in Vercel project settings:
-   - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-   - CLERK_SECRET_KEY
-   - MONGODB_URI
-3. Deploy your project
-4. Your app will be live at your Vercel URL
-
 ## Contributing
 
 1. Fork the repository
