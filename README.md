@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BuzzKGP - Reddit-style Platform for IIT KGP
 
-## Getting Started
+BuzzKGP is a modern, responsive web application built for IIT KGP students to share and discuss ideas through posts and nested comments. Built with Next.js and MongoDB, it features real-time interactions and a clean, intuitive interface.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Authentication & User Management
+- Secure authentication using Clerk
+- User profiles with avatars and display names
+- Protected routes and API endpoints
+
+### Posts
+- Create rich text posts using TinyMCE editor
+- View posts in feed with infinite scrolling
+- Sort posts by latest or popularity
+- Personal post history view
+- Responsive layout for all devices
+
+### Comments & Discussions
+- Nested comment system (replies to comments)
+- Upvote/downvote functionality
+- Sort comments by popularity or latest
+- Real-time comment updates
+- Rich text formatting in comments
+
+### UI/UX
+- Responsive design that works on all devices
+- Dark/Light mode support
+- Clean and intuitive interface
+- Loading states and error handling
+- Mobile-first navigation
+
+## Tech Stack
+
+- **Frontend:**
+  - Next.js 13+ (App Router)
+  - React 18+
+  - Chakra UI
+  - TinyMCE Editor
+  - Clerk Authentication
+
+- **Backend:**
+  - Next.js API Routes
+  - MongoDB
+  - Clerk Auth API
+
+## API Endpoints
+
+### Posts
+```
+GET /api/posts
+- Query params:
+  - user_id (optional): Get posts by specific user
+  - post_id (optional): Get specific post
+- Returns: Array of posts or single post
+
+POST /api/posts/new
+- Body: { title, content, user_id }
+- Returns: Created post details
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Comments
+```
+GET /api/comments
+- Query params:
+  - post_id: Get comments for specific post
+  - sort: "latest" or "popular"
+- Returns: Array of comments
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+POST /api/comments
+- Body: { user_id, body, post_id }
+- Returns: Created comment details
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Replies
+```
+GET /api/replies
+- Query params:
+  - comment_id: Get replies for specific comment
+- Returns: Array of replies
 
-## Learn More
+POST /api/replies
+- Body: { user_id, body, parent_comment_id, post_id }
+- Returns: Created reply details
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Reactions
+```
+GET /api/reactions
+- Query params:
+  - reaction: "upvote" or "downvote"
+  - user_id: User performing the reaction
+  - type: "post" or "comment"
+  - content_id: ID of post/comment
+- Returns: Updated reaction status
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Page Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+/ - Home page with post feed
+/post/new - Create new post
+/post/[postId] - Individual post view with comments
+/?by=me - User's posts view
+```
 
-## Deploy on Vercel
+## Local Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
+```bash
+git clone https://github.com/keshaviscool/buzzKGP.git
+cd buzzKGP
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+MONGODB_URI=your_mongodb_uri
+```
+
+4. Run the development server:
+```bash
+npm run dev
+```
+
+5. Open [http://localhost:3000](http://localhost:3000)
+
+## Deployment
+
+The application can be deployed on Vercel with the following steps:
+
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables in Vercel project settings:
+   - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+   - CLERK_SECRET_KEY
+   - MONGODB_URI
+3. Deploy your project
+4. Your app will be live at your Vercel URL
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
